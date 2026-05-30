@@ -250,20 +250,28 @@
     const initializeMobileQuickPanel = function () {
         const panel = document.getElementById('mobileQuickPanel');
         const toggle = document.getElementById('mobileQuickToggle');
+        const links = document.getElementById('mobileQuickLinks');
 
-        if (!panel || !toggle) {
+        if (!panel || !toggle || !links) {
             return;
         }
 
         const syncState = function (isOpen) {
             panel.classList.toggle('is-open', isOpen);
             toggle.setAttribute('aria-expanded', String(isOpen));
+            links.setAttribute('aria-hidden', String(!isOpen));
         };
 
         syncState(false);
 
         toggle.addEventListener('click', function () {
             syncState(!panel.classList.contains('is-open'));
+        });
+
+        document.addEventListener('click', function (event) {
+            if (!panel.contains(event.target)) {
+                syncState(false);
+            }
         });
 
         window.addEventListener('resize', function () {
@@ -274,6 +282,6 @@
     };
 
     initializeMobileQuickPanel();
-    
+
 })(jQuery);
 

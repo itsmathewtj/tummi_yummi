@@ -526,20 +526,12 @@
         <!-- Footer End -->
 
         <div class="mobile-quick-panel d-lg-none" id="mobileQuickPanel">
-            <div class="mobile-quick-panel-inner">
-                <a class="mobile-quick-link mobile-quick-whatsapp" href="https://www.instagram.com/tummi_yummi/" target="_blank" rel="noopener" aria-label="Open Instagram chat">
-                    <i class="fab fa-whatsapp"></i>
-                </a>
-                <a class="mobile-quick-link mobile-quick-call" href="contact.html" aria-label="Open contact page">
-                    <i class="fa fa-phone-alt"></i>
-                </a>
-                <a class="mobile-quick-link mobile-quick-mail" href="contact.html" aria-label="Open email and contact details">
-                    <i class="fa fa-envelope"></i>
-                </a>
+            <div class="mobile-quick-links" id="mobileQuickLinks" aria-hidden="true">
+                <a class="mobile-quick-link mobile-quick-link-chat" href="https://www.instagram.com/tummi_yummi/" target="_blank" rel="noopener" aria-label="Open WhatsApp style chat"></a>
+                <a class="mobile-quick-link mobile-quick-link-call" href="contact.html" aria-label="Open call contact details"></a>
+                <a class="mobile-quick-link mobile-quick-link-mail" href="contact.html" aria-label="Open email contact details"></a>
             </div>
-            <button type="button" class="mobile-quick-toggle" id="mobileQuickToggle" aria-label="Toggle quick contact panel" aria-expanded="false">
-                <i class="fa fa-chevron-right"></i>
-            </button>
+            <button type="button" class="mobile-quick-bubble" id="mobileQuickToggle" aria-label="Toggle quick contact options" aria-expanded="false" aria-controls="mobileQuickLinks"></button>
         </div>
 
         <!-- Back to Top -->
