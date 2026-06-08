@@ -268,14 +268,39 @@
         };
 
         const syncSide = function () {
-            const rect = panel.getBoundingClientRect();
-            panel.classList.toggle('is-left', rect.left + (rect.width / 2) < window.innerWidth / 2);
+            const beforeRect = toggle.getBoundingClientRect();
+            const shouldOpenRight = beforeRect.left + (beforeRect.width / 2) < window.innerWidth / 2;
+            const wasOpenRight = panel.classList.contains('is-left');
+
+            if (shouldOpenRight === wasOpenRight) {
+                return;
+            }
+
+            panel.classList.toggle('is-left', shouldOpenRight);
+
+            const afterRect = toggle.getBoundingClientRect();
+            const panelRect = panel.getBoundingClientRect();
+            const handleSize = toggle.offsetWidth || 72;
+            const nextLeft = Math.min(
+                Math.max(panelRect.left + beforeRect.left - afterRect.left, 8 - panelRect.width + handleSize),
+                window.innerWidth - handleSize - 8
+            );
+
+            panel.style.left = `${nextLeft}px`;
+            panel.style.right = 'auto';
         };
 
         const movePanel = function (clientX, clientY) {
             const rect = panel.getBoundingClientRect();
-            const nextLeft = Math.min(Math.max(clientX - offsetX, 8), window.innerWidth - rect.width - 8);
-            const nextTop = Math.min(Math.max(clientY - offsetY, 78), window.innerHeight - rect.height - 8);
+            const handleSize = toggle.offsetWidth || 72;
+            const handleLeft = panel.classList.contains('is-left') ? 0 : rect.width - handleSize;
+            const minLeft = 8 - handleLeft;
+            const maxLeft = window.innerWidth - handleSize - 8 - handleLeft;
+            const nextLeft = Math.min(Math.max(clientX - offsetX, minLeft), maxLeft);
+            const handleTop = (rect.height - handleSize) / 2;
+            const minTop = 78 - handleTop;
+            const maxTop = window.innerHeight - handleSize - 8 - handleTop;
+            const nextTop = Math.min(Math.max(clientY - offsetY, minTop), maxTop);
 
             panel.style.left = `${nextLeft}px`;
             panel.style.top = `${nextTop}px`;
@@ -291,19 +316,16 @@
             pointerId = null;
             syncSide();
 
-            if (!hasDragged && isMobile()) {
+            if (!hasDragged) {
                 syncState(!panel.classList.contains('is-open'));
+                hasDragged = true;
             }
         };
 
-        syncState(false);
+        syncState(true);
         syncSide();
 
         toggle.addEventListener('pointerdown', function (event) {
-            if (!isMobile()) {
-                return;
-            }
-
             const rect = panel.getBoundingClientRect();
             pointerId = event.pointerId;
             offsetX = event.clientX - rect.left;
@@ -334,8 +356,16 @@
         toggle.addEventListener('pointerup', stopDrag);
         toggle.addEventListener('pointercancel', stopDrag);
 
+        toggle.addEventListener('click', function () {
+            if (isMobile() || hasDragged) {
+                return;
+            }
+
+            syncState(!panel.classList.contains('is-open'));
+        });
+
         toggle.addEventListener('keydown', function (event) {
-            if ((event.key === 'Enter' || event.key === ' ') && isMobile()) {
+            if (event.key === 'Enter' || event.key === ' ') {
                 event.preventDefault();
                 syncState(!panel.classList.contains('is-open'));
             }
@@ -343,7 +373,7 @@
 
         window.addEventListener('resize', function () {
             if (!isMobile()) {
-                syncState(false);
+                syncState(true);
                 panel.removeAttribute('style');
                 panel.classList.remove('is-left');
                 return;
