@@ -405,7 +405,7 @@
             return;
         }
 
-        const cards = Array.from(document.querySelectorAll('.menu-tab-content .menu-filter-item'));
+        const cards = Array.from(document.querySelectorAll('.menu-tab-content .menu-filter-item, .index-menu-items .menu-filter-item'));
 
         if (!cards.length) {
             return;
@@ -439,9 +439,7 @@
                     });
             });
 
-            return (related.length ? related : items.filter(function (candidate) {
-                return candidate.title !== item.title;
-            })).slice(0, 4);
+            return related.slice(0, 4);
         };
 
         const escapeHtml = function (value) {
@@ -468,7 +466,9 @@
             };
 
             relatedList.innerHTML = '';
-            getRelatedItems(item).forEach(function (relatedItem) {
+            const relatedItems = getRelatedItems(item);
+
+            relatedItems.forEach(function (relatedItem) {
                 const button = document.createElement('button');
                 button.type = 'button';
                 button.className = 'menu-item-related-card';
@@ -480,6 +480,19 @@
                 });
                 relatedList.appendChild(button);
             });
+
+            if (relatedItems.length < 4) {
+                const moreButton = document.createElement('button');
+                moreButton.type = 'button';
+                moreButton.className = 'menu-item-related-card menu-item-related-more';
+                moreButton.innerHTML = '<i class="fa fa-utensils"></i>' +
+                    '<strong>More Items</strong>' +
+                    '<span>Open Menu <i class="fa fa-arrow-right"></i></span>';
+                moreButton.addEventListener('click', function () {
+                    window.location.href = 'menu.html';
+                });
+                relatedList.appendChild(moreButton);
+            }
 
             modal.classList.add('is-open');
             modal.setAttribute('aria-hidden', 'false');
