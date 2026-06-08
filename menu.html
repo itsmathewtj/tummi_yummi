@@ -314,7 +314,7 @@
                                         <div class="col-lg-6 menu-filter-item" data-menu-category="tea-juice-snacks"><div class="d-flex align-items-center"><img class="flex-shrink-0 img-fluid rounded" src="assets/Coffee.jpeg" alt="Coffee" style="width: 80px;"><div class="w-100 d-flex flex-column text-start ps-4"><h5 class="d-flex justify-content-between border-bottom pb-2"><span>Coffee</span><span class="text-primary">Tea, Juice &amp; Snacks</span></h5><small class="fst-italic">Fresh coffee brewed strong for warm breaks daily.</small></div></div></div>
                                         <div class="col-lg-6 menu-filter-item" data-menu-category="tea-juice-snacks"><div class="d-flex align-items-center"><img class="flex-shrink-0 img-fluid rounded" src="assets/Lassi.jpeg" alt="Lassi" style="width: 80px;"><div class="w-100 d-flex flex-column text-start ps-4"><h5 class="d-flex justify-content-between border-bottom pb-2"><span>Lassi</span><span class="text-primary">Tea, Juice &amp; Snacks</span></h5><small class="fst-italic">Cool lassi blended smooth for refreshing sips daily.</small></div></div></div>
                                         <div class="col-lg-6 menu-filter-item" data-menu-category="tea-juice-snacks"><div class="d-flex align-items-center"><img class="flex-shrink-0 img-fluid rounded" src="assets/Shakes.jpeg" alt="Shakes" style="width: 80px;"><div class="w-100 d-flex flex-column text-start ps-4"><h5 class="d-flex justify-content-between border-bottom pb-2"><span>Shakes</span><span class="text-primary">Tea, Juice &amp; Snacks</span></h5><small class="fst-italic">Creamy shakes blended cold for sweet refreshment daily.</small></div></div></div>
-                                        <div class="col-lg-6 menu-filter-item" data-menu-category="tea-juice-snacks"><div class="d-flex align-items-center"><img class="flex-shrink-0 img-fluid rounded" src="assets/Passion%20Fruit.jpeg" alt="Juice" style="width: 80px;"><div class="w-100 d-flex flex-column text-start ps-4"><h5 class="d-flex justify-content-between border-bottom pb-2"><span>Juice</span><span class="text-primary">Tea, Juice &amp; Snacks</span></h5><small class="fst-italic">Fresh juice poured cold for fruity refreshment daily.</small></div></div></div>
+                                        <div class="col-lg-6 menu-filter-item" data-menu-category="tea-juice-snacks"><div class="d-flex align-items-center"><img class="flex-shrink-0 img-fluid rounded" src="assets/Juice.jpeg" alt="Juice" style="width: 80px;"><div class="w-100 d-flex flex-column text-start ps-4"><h5 class="d-flex justify-content-between border-bottom pb-2"><span>Juice</span><span class="text-primary">Tea, Juice &amp; Snacks</span></h5><small class="fst-italic">Fresh juice poured cold for fruity refreshment daily.</small></div></div></div>
                                         <div class="col-lg-6 menu-filter-item" data-menu-category="tea-juice-snacks"><div class="d-flex align-items-center"><img class="flex-shrink-0 img-fluid rounded" src="assets/Snacks.jpeg" alt="Snacks" style="width: 80px;"><div class="w-100 d-flex flex-column text-start ps-4"><h5 class="d-flex justify-content-between border-bottom pb-2"><span>Snacks</span><span class="text-primary">Tea, Juice &amp; Snacks</span></h5><small class="fst-italic">Assorted snacks ready for quick evening bites daily.</small></div></div></div>
                                     </div>
                                 </div>
@@ -424,6 +424,49 @@
         </div>
         <!-- Footer End -->
 
+        <div class="menu-item-modal" id="menuItemModal" aria-hidden="true">
+            <div class="menu-item-modal-backdrop" data-menu-modal-close></div>
+            <div class="menu-item-modal-sheet" role="dialog" aria-modal="true" aria-labelledby="menuItemModalTitle">
+                <span class="menu-item-modal-handle"></span>
+                <button type="button" class="menu-item-modal-close" data-menu-modal-close aria-label="Close item details">
+                    <i class="fa fa-times"></i>
+                </button>
+                <div class="menu-item-modal-hero">
+                    <img id="menuItemModalImage" src="" alt="">
+                    <div class="menu-item-modal-summary">
+                        <h3 id="menuItemModalTitle"></h3>
+                        <span id="menuItemModalCategory"></span>
+                        <p id="menuItemModalDescription"></p>
+                        <div class="menu-item-modal-meta">
+                            <span><i class="fa fa-box-open"></i> Fresh</span>
+                            <span><i class="fa fa-leaf"></i> Homemade</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="menu-item-modal-section">
+                    <h4>About this item</h4>
+                    <p id="menuItemModalAbout"></p>
+                </div>
+                <div class="menu-item-modal-section">
+                    <h4>Related Items</h4>
+                    <div class="menu-item-related-list" id="menuItemRelatedList"></div>
+                </div>
+                <div class="menu-item-modal-section">
+                    <h4>Perfect For</h4>
+                    <div class="menu-item-perfect-list">
+                        <span><i class="fa fa-birthday-cake"></i> Birthdays</span>
+                        <span><i class="fa fa-gift"></i> Festivals</span>
+                        <span><i class="fa fa-calendar-check"></i> Parties</span>
+                        <span><i class="fa fa-seedling"></i> Gifting</span>
+                    </div>
+                </div>
+                <button type="button" class="menu-item-order-btn" id="menuItemOrderBtn">
+                    <i class="fa fa-shopping-bag"></i>
+                    Order now
+                </button>
+            </div>
+        </div>
+
         <!-- Back to Top -->
         <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
     </div>
@@ -444,5 +487,4 @@
 </body>
 
 </html>
-
 

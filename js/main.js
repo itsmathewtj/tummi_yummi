@@ -267,6 +267,12 @@
             list.setAttribute('aria-hidden', String(!isOpen));
         };
 
+        list.querySelectorAll('.mobile-menu-filter-btn').forEach(function (button) {
+            button.addEventListener('click', function () {
+                syncState(false);
+            });
+        });
+
         const syncSide = function () {
             const beforeRect = toggle.getBoundingClientRect();
             const shouldOpenRight = beforeRect.left + (beforeRect.width / 2) < window.innerWidth / 2;
@@ -384,6 +390,135 @@
     };
 
     initializeMobileMenuFilter();
+
+    const initializeMenuItemModal = function () {
+        const modal = document.getElementById('menuItemModal');
+        const image = document.getElementById('menuItemModalImage');
+        const title = document.getElementById('menuItemModalTitle');
+        const category = document.getElementById('menuItemModalCategory');
+        const description = document.getElementById('menuItemModalDescription');
+        const about = document.getElementById('menuItemModalAbout');
+        const relatedList = document.getElementById('menuItemRelatedList');
+        const orderButton = document.getElementById('menuItemOrderBtn');
+
+        if (!modal || !image || !title || !category || !description || !about || !relatedList || !orderButton) {
+            return;
+        }
+
+        const cards = Array.from(document.querySelectorAll('.menu-tab-content .menu-filter-item'));
+
+        if (!cards.length) {
+            return;
+        }
+
+        const getCardData = function (card) {
+            const cardImage = card.querySelector('img');
+            const titleText = card.querySelector('h5 span:first-child');
+            const categoryText = card.querySelector('h5 span.text-primary');
+            const descriptionText = card.querySelector('small');
+
+            return {
+                card,
+                image: cardImage ? cardImage.getAttribute('src') : '',
+                title: titleText ? titleText.textContent.trim() : '',
+                category: categoryText ? categoryText.textContent.trim() : '',
+                description: descriptionText ? descriptionText.textContent.trim() : '',
+                categories: (card.dataset.menuCategory || '').split(/\s+/).filter(Boolean)
+            };
+        };
+
+        const items = cards.map(getCardData).filter(function (item) {
+            return item.title && item.image;
+        });
+
+        const getRelatedItems = function (item) {
+            const related = items.filter(function (candidate) {
+                return candidate.title !== item.title &&
+                    candidate.categories.some(function (candidateCategory) {
+                        return item.categories.includes(candidateCategory);
+                    });
+            });
+
+            return (related.length ? related : items.filter(function (candidate) {
+                return candidate.title !== item.title;
+            })).slice(0, 4);
+        };
+
+        const escapeHtml = function (value) {
+            return value.replace(/[&<>"']/g, function (character) {
+                return {
+                    '&': '&amp;',
+                    '<': '&lt;',
+                    '>': '&gt;',
+                    '"': '&quot;',
+                    "'": '&#039;'
+                }[character];
+            });
+        };
+
+        const openModal = function (item) {
+            image.src = item.image;
+            image.alt = item.title;
+            title.textContent = item.title;
+            category.textContent = item.category;
+            description.textContent = item.description;
+            about.textContent = item.description + ' Made with Tummi Yummi care for fresh, satisfying moments.';
+            orderButton.onclick = function () {
+                window.location.href = 'booking.html';
+            };
+
+            relatedList.innerHTML = '';
+            getRelatedItems(item).forEach(function (relatedItem) {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'menu-item-related-card';
+                button.innerHTML = '<img src="' + escapeHtml(relatedItem.image) + '" alt="' + escapeHtml(relatedItem.title) + '">' +
+                    '<strong>' + escapeHtml(relatedItem.title) + '</strong>' +
+                    '<span>View <i class="fa fa-plus"></i></span>';
+                button.addEventListener('click', function () {
+                    openModal(relatedItem);
+                });
+                relatedList.appendChild(button);
+            });
+
+            modal.classList.add('is-open');
+            modal.setAttribute('aria-hidden', 'false');
+            document.body.classList.add('menu-modal-open');
+        };
+
+        const closeModal = function () {
+            modal.classList.remove('is-open');
+            modal.setAttribute('aria-hidden', 'true');
+            document.body.classList.remove('menu-modal-open');
+        };
+
+        items.forEach(function (item) {
+            const trigger = item.card.querySelector('.d-flex.align-items-center') || item.card;
+            trigger.setAttribute('role', 'button');
+            trigger.setAttribute('tabindex', '0');
+            trigger.addEventListener('click', function () {
+                openModal(item);
+            });
+            trigger.addEventListener('keydown', function (event) {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    event.preventDefault();
+                    openModal(item);
+                }
+            });
+        });
+
+        modal.querySelectorAll('[data-menu-modal-close]').forEach(function (closeTrigger) {
+            closeTrigger.addEventListener('click', closeModal);
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape' && modal.classList.contains('is-open')) {
+                closeModal();
+            }
+        });
+    };
+
+    initializeMenuItemModal();
 
     const initializeMobileQuickPanel = function () {
         const panel = document.getElementById('mobileQuickPanel');
