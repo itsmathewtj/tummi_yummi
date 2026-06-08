@@ -322,7 +322,7 @@
             }
         };
 
-        syncState(true);
+        syncState(isMobile());
         syncSide();
 
         toggle.addEventListener('pointerdown', function (event) {
@@ -373,7 +373,7 @@
 
         window.addEventListener('resize', function () {
             if (!isMobile()) {
-                syncState(true);
+                syncState(false);
                 panel.removeAttribute('style');
                 panel.classList.remove('is-left');
                 return;

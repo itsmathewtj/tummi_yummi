@@ -449,17 +449,23 @@ a {
 }
 
 .menu-filter-panel {
-    display: none;
+    position: sticky;
+    top: 120px;
+    padding: 1.5rem;
+    border-radius: 28px;
+    background: linear-gradient(180deg, rgba(255, 255, 255, .98), rgba(255, 246, 231, .94));
+    border: 1px solid rgba(245, 158, 11, .16);
+    box-shadow: var(--shadow-soft);
 }
 
 .menu-layout > .col-lg-8 {
-    width: 100%;
-    max-width: 100%;
-    flex: 0 0 100%;
+    width: 66.66666667%;
+    max-width: 66.66666667%;
+    flex: 0 0 auto;
 }
 
 .menu-layout > .col-lg-4 {
-    display: none;
+    display: block;
 }
 
 .menu-filter-kicker {
@@ -534,6 +540,7 @@ a {
     touch-action: none;
     user-select: none;
     pointer-events: none;
+    display: none;
 }
 
 .mobile-menu-filter-list {
@@ -1969,6 +1976,7 @@ a {
     }
 
     .mobile-menu-filter {
+        display: block;
         width: 308px;
         height: 360px;
         top: max(86px, min(42vh, calc(100vh - 360px)));
