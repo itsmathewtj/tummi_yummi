@@ -547,16 +547,19 @@ a {
     position: absolute;
     inset: 0;
     opacity: 0;
+    visibility: hidden;
     transform: scale(.86);
     transform-origin: right center;
     pointer-events: none;
-    transition: opacity .28s ease, transform .28s ease;
+    transition: opacity .28s ease, transform .28s ease, visibility 0s linear .28s;
 }
 
 .mobile-menu-filter.is-open .mobile-menu-filter-list {
     opacity: 1;
+    visibility: visible;
     transform: scale(1);
     pointer-events: auto;
+    transition-delay: 0s;
 }
 
 .mobile-menu-filter-btn {
@@ -647,6 +650,10 @@ a {
 
 .mobile-menu-filter.is-open .mobile-menu-filter-btn {
     transform: scale(1);
+}
+
+.mobile-menu-filter:not(.is-open) .mobile-menu-filter-btn {
+    pointer-events: none;
 }
 
 .mobile-menu-filter-btn .filter-icon {
