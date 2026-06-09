@@ -2387,11 +2387,11 @@ body.menu-modal-open {
 .brand-value-card {
     position: relative;
     overflow: hidden;
-    padding: 36px 26px 30px;
+    padding: 44px 26px 30px;
     border: 1px solid var(--border-soft);
     background: linear-gradient(180deg, rgba(255, 255, 255, .98), rgba(255, 246, 231, .92));
     box-shadow: var(--shadow-soft);
-    border-radius: 28px !important;
+    border-radius: 56px 56px 28px 28px !important;
     transition: .4s ease;
 }
 
@@ -2416,13 +2416,19 @@ body.menu-modal-open {
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 88px;
-    height: 88px;
-    color: #fff;
-    font-size: 2.1rem;
+    width: 94px;
+    height: 94px;
+    color: var(--primary-dark);
+    font-size: 2.05rem;
     border-radius: 50%;
-    background: linear-gradient(135deg, var(--primary), var(--accent));
-    box-shadow: 0 18px 35px rgba(245, 158, 11, .28);
+    background: #fff;
+    border: 1px solid rgba(245, 158, 11, .22);
+    box-shadow: 0 20px 36px rgba(245, 158, 11, .18), inset 0 0 0 12px rgba(245, 158, 11, .08);
+}
+
+.brand-value-icon i {
+    position: relative;
+    z-index: 1;
 }
 
 .brand-value-card h5 {
@@ -2505,6 +2511,47 @@ body.menu-modal-open {
     letter-spacing: 1px;
     box-shadow: none;
     color: #fff;
+}
+
+.footer-feedback-form {
+    max-width: 400px;
+}
+
+.footer-feedback-control {
+    position: relative;
+}
+
+.footer-feedback-control .form-control {
+    min-height: 70px;
+    padding-right: 112px !important;
+    border-width: 2px;
+    border-radius: 999px;
+    color: var(--heading);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, .16);
+}
+
+.footer-feedback-control .form-control::placeholder {
+    color: #7b8190;
+}
+
+.footer-feedback-control .btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    min-width: 88px;
+    min-height: 50px;
+    border-radius: 999px;
+    font-family: 'Nunito', sans-serif;
+    font-weight: 900;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+}
+
+.footer-feedback-hint {
+    display: block;
+    margin-bottom: 12px;
+    color: rgba(255, 255, 255, .68);
+    line-height: 1.5;
 }
 
 .footer .copyright {

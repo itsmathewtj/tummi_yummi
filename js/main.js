@@ -620,7 +620,7 @@
 
     const initializeBookingWhatsappForms = function () {
         const forms = document.querySelectorAll('.booking-whatsapp-form');
-        const whatsappNumber = '918891007306';
+        const whatsappNumber = '919496397390';
 
         forms.forEach(function (form) {
             form.addEventListener('submit', function (event) {
@@ -650,6 +650,44 @@
     };
 
     initializeBookingWhatsappForms();
+
+    const initializeFooterFeedbackForms = function () {
+        const forms = document.querySelectorAll('.footer-feedback-form');
+
+        if (!forms.length) {
+            return;
+        }
+
+        forms.forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                const input = form.querySelector('[name="feedback"]');
+                const feedback = input ? input.value.trim() : '';
+
+                if (!feedback) {
+                    if (input) {
+                        input.setCustomValidity('Please enter your feedback.');
+                        input.focus();
+                        input.reportValidity();
+                        input.addEventListener('input', function clearFeedbackValidity() {
+                            input.setCustomValidity('');
+                            input.removeEventListener('input', clearFeedbackValidity);
+                        });
+                    }
+                    return;
+                }
+
+                input.setCustomValidity('');
+                const whatsappNumber = form.getAttribute('data-whatsapp-number') || '919496397390';
+                const message = 'Feedback: ' + feedback;
+
+                window.location.href = 'https://wa.me/' + whatsappNumber + '?text=' + encodeURIComponent(message);
+            });
+        });
+    };
+
+    initializeFooterFeedbackForms();
 
     const initializeMobileQuickPanel = function () {
         const panel = document.getElementById('mobileQuickPanel');
