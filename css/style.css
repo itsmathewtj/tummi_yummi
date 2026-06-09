@@ -305,8 +305,27 @@ a {
 }
 
 .hero-header img {
+    width: 108%;
+    max-width: 108%;
+    margin-right: -4%;
     animation: imgRotate 50s linear infinite;
     filter: drop-shadow(0 30px 55px rgba(0, 0, 0, .28));
+}
+
+.about-cake-photo {
+    margin-top: -28%;
+}
+
+@media (max-width: 991.98px) {
+    .hero-header img {
+        width: 100%;
+        max-width: 100%;
+        margin-right: 0;
+    }
+
+    .about-cake-photo {
+        margin-top: 0;
+    }
 }
 
 @keyframes imgRotate { 
