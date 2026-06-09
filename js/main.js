@@ -92,108 +92,193 @@
         })
     });
 
-    const initializeAutoScroller = function (scrollerSelector, trackSelector, options = {}) {
-        const scroller = document.querySelector(scrollerSelector);
-        const track = scroller ? scroller.querySelector(trackSelector) : null;
+    const initializeAutoScroller = function (scrollerSelector, trackSelector, label, options = {}) {
+        const scrollers = document.querySelectorAll(scrollerSelector);
 
-        if (!scroller || !track || track.children.length === 0) {
+        if (!scrollers.length) {
             return;
         }
 
         const settings = {
             cloneTrack: false,
-            speed: 0.6,
+            speed: 0.55,
+            resumeDelay: 1200,
             ...options
         };
 
-        if (settings.cloneTrack) {
-            track.innerHTML += track.innerHTML;
-        }
+        scrollers.forEach(function (scroller) {
+            const track = scroller.querySelector(trackSelector);
 
-        scroller.classList.add('is-auto-scrolling');
+            if (!track || track.children.length === 0) {
+                return;
+            }
 
-        let isPaused = false;
-        let scrollResetPoint = track.scrollWidth / 2;
-        let isPointerDown = false;
-        let dragStartX = 0;
-        let dragStartScrollLeft = 0;
+            if (settings.cloneTrack && !track.dataset.autoScrollCloned) {
+                track.innerHTML += track.innerHTML;
+                track.dataset.autoScrollCloned = 'true';
+            }
 
-        const syncResetPoint = function () {
-            scrollResetPoint = track.scrollWidth / 2;
-        };
+            const hiddenSlides = track.querySelectorAll('[aria-hidden="true"]');
+            hiddenSlides.forEach(function (slide) {
+                slide.dataset.autoScrollDuplicate = 'true';
+            });
 
-        const autoScroll = function () {
-            if (!isPaused) {
-                scroller.scrollLeft += settings.speed;
+            let isPointerDown = false;
+            let isPaused = false;
+            let dragStartX = 0;
+            let dragStartScrollLeft = 0;
+            let resumeTimer = null;
+            let resetPoint = track.scrollWidth / 2;
 
-                if (scroller.scrollLeft >= scrollResetPoint) {
-                    scroller.scrollLeft = 0;
+            scroller.classList.add('is-auto-scrolling');
+            scroller.setAttribute('tabindex', '0');
+            scroller.setAttribute('aria-label', label);
+
+            const controls = document.createElement('div');
+            controls.className = 'manual-scroll-controls';
+            controls.setAttribute('aria-label', label + ' controls');
+
+            const createButton = function (direction, icon, text) {
+                const button = document.createElement('button');
+                button.type = 'button';
+                button.className = 'manual-scroll-btn';
+                button.dataset.scrollDirection = direction;
+                button.setAttribute('aria-label', text);
+                button.innerHTML = '<i class="' + icon + '" aria-hidden="true"></i>';
+                controls.appendChild(button);
+                return button;
+            };
+
+            const prevButton = createButton('previous', 'fa fa-chevron-left', 'Previous ' + label);
+            const nextButton = createButton('next', 'fa fa-chevron-right', 'Next ' + label);
+            scroller.insertAdjacentElement('afterend', controls);
+
+            const pauseAutoScroll = function () {
+                window.clearTimeout(resumeTimer);
+                isPaused = true;
+            };
+
+            const resumeAutoScroll = function () {
+                window.clearTimeout(resumeTimer);
+                resumeTimer = window.setTimeout(function () {
+                    isPaused = false;
+                }, settings.resumeDelay);
+            };
+
+            const getScrollStep = function () {
+                const firstItem = track.children[0];
+                const trackStyle = window.getComputedStyle(track);
+                const gap = parseFloat(trackStyle.columnGap || trackStyle.gap) || 0;
+                return firstItem ? firstItem.getBoundingClientRect().width + gap : scroller.clientWidth * 0.9;
+            };
+
+            const syncResetPoint = function () {
+                resetPoint = track.scrollWidth / 2;
+            };
+
+            const updateControls = function () {
+                const maxScroll = resetPoint - scroller.clientWidth;
+                const hasOverflow = maxScroll > 2;
+                controls.classList.toggle('is-hidden', !hasOverflow);
+                prevButton.disabled = !hasOverflow || scroller.scrollLeft <= 1;
+                nextButton.disabled = !hasOverflow || scroller.scrollLeft >= maxScroll - 1;
+            };
+
+            const moveScroller = function (direction) {
+                const multiplier = direction === 'next' ? 1 : -1;
+                pauseAutoScroll();
+                scroller.scrollBy({
+                    left: getScrollStep() * multiplier,
+                    behavior: 'smooth'
+                });
+                resumeAutoScroll();
+            };
+
+            const autoScroll = function () {
+                if (!isPaused && resetPoint > scroller.clientWidth) {
+                    scroller.scrollLeft += settings.speed;
+
+                    if (scroller.scrollLeft >= resetPoint) {
+                        scroller.scrollLeft = 0;
+                    }
                 }
-            }
 
+                window.requestAnimationFrame(autoScroll);
+            };
+
+            prevButton.addEventListener('click', function () {
+                moveScroller('previous');
+            });
+
+            nextButton.addEventListener('click', function () {
+                moveScroller('next');
+            });
+
+            scroller.addEventListener('pointerdown', function (event) {
+                isPointerDown = true;
+                pauseAutoScroll();
+                dragStartX = event.clientX;
+                dragStartScrollLeft = scroller.scrollLeft;
+                scroller.classList.add('is-dragging');
+            });
+
+            scroller.addEventListener('pointermove', function (event) {
+                if (!isPointerDown) {
+                    return;
+                }
+
+                const distance = event.clientX - dragStartX;
+                scroller.scrollLeft = dragStartScrollLeft - distance;
+            });
+
+            const stopDragging = function () {
+                if (!isPointerDown) {
+                    return;
+                }
+
+                isPointerDown = false;
+                scroller.classList.remove('is-dragging');
+                updateControls();
+                resumeAutoScroll();
+            };
+
+            scroller.addEventListener('mouseenter', pauseAutoScroll);
+            scroller.addEventListener('mouseleave', resumeAutoScroll);
+            scroller.addEventListener('touchstart', pauseAutoScroll, { passive: true });
+            scroller.addEventListener('touchend', resumeAutoScroll, { passive: true });
+            scroller.addEventListener('pointerup', stopDragging);
+            scroller.addEventListener('pointercancel', stopDragging);
+            scroller.addEventListener('pointerleave', stopDragging);
+            scroller.addEventListener('scroll', updateControls);
+
+            scroller.addEventListener('keydown', function (event) {
+                if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') {
+                    return;
+                }
+
+                event.preventDefault();
+                moveScroller(event.key === 'ArrowRight' ? 'next' : 'previous');
+            });
+
+            window.addEventListener('resize', function () {
+                syncResetPoint();
+                updateControls();
+            });
+
+            window.setTimeout(function () {
+                syncResetPoint();
+                updateControls();
+            }, 100);
             window.requestAnimationFrame(autoScroll);
-        };
-
-        scroller.addEventListener('mouseenter', function () {
-            isPaused = true;
         });
-
-        scroller.addEventListener('mouseleave', function () {
-            isPaused = false;
-        });
-
-        scroller.addEventListener('touchstart', function () {
-            isPaused = true;
-        }, { passive: true });
-
-        scroller.addEventListener('touchend', function () {
-            isPaused = false;
-        }, { passive: true });
-
-        scroller.addEventListener('pointerdown', function (event) {
-            isPointerDown = true;
-            isPaused = true;
-            dragStartX = event.clientX;
-            dragStartScrollLeft = scroller.scrollLeft;
-            scroller.classList.add('is-dragging');
-        });
-
-        scroller.addEventListener('pointermove', function (event) {
-            if (!isPointerDown) {
-                return;
-            }
-
-            const distance = event.clientX - dragStartX;
-            scroller.scrollLeft = dragStartScrollLeft - distance;
-        });
-
-        const stopDragging = function () {
-            if (!isPointerDown) {
-                return;
-            }
-
-            isPointerDown = false;
-            isPaused = false;
-            scroller.classList.remove('is-dragging');
-        };
-
-        scroller.addEventListener('pointerup', stopDragging);
-        scroller.addEventListener('pointercancel', stopDragging);
-        scroller.addEventListener('pointerleave', stopDragging);
-
-        window.addEventListener('resize', syncResetPoint);
-        syncResetPoint();
-        window.requestAnimationFrame(autoScroll);
     };
 
-    // Blog auto scroll
-    initializeAutoScroller('.blog-scroll', '.blog-scroll-track', {
+    initializeAutoScroller('.blog-scroll', '.blog-scroll-track', 'Blog articles', {
         cloneTrack: true,
         speed: 0.6
     });
 
-    // Testimonial auto scroll
-    initializeAutoScroller('.testimonial-slider', '.testimonial-track', {
+    initializeAutoScroller('.testimonial-slider', '.testimonial-track', 'Testimonials', {
         speed: 0.55
     });
 
@@ -532,6 +617,39 @@
     };
 
     initializeMenuItemModal();
+
+    const initializeBookingWhatsappForms = function () {
+        const forms = document.querySelectorAll('.booking-whatsapp-form');
+        const whatsappNumber = '918891007306';
+
+        forms.forEach(function (form) {
+            form.addEventListener('submit', function (event) {
+                event.preventDefault();
+
+                if (!form.checkValidity()) {
+                    form.reportValidity();
+                    return;
+                }
+
+                const formData = new FormData(form);
+                const message = [
+                    'Hello Tummi Yummi team, I would like to place an advance order. Please review my booking details and confirm availability soon.',
+                    '',
+                    'Name: ' + (formData.get('name') || ''),
+                    'Contact: ' + (formData.get('contact') || ''),
+                    'Place: ' + (formData.get('place') || ''),
+                    'Preferred Date & Time: ' + (formData.get('datetime') || ''),
+                    'Item Name: ' + (formData.get('itemName') || ''),
+                    'Item Count: ' + (formData.get('itemCount') || ''),
+                    'Booking Details: ' + (formData.get('message') || '')
+                ].join('\n');
+
+                window.location.href = 'https://wa.me/' + whatsappNumber + '?text=' + encodeURIComponent(message);
+            });
+        });
+    };
+
+    initializeBookingWhatsappForms();
 
     const initializeMobileQuickPanel = function () {
         const panel = document.getElementById('mobileQuickPanel');

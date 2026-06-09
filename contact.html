@@ -121,29 +121,55 @@
                     <div class="col-md-6">
                         <div class="wow fadeInUp" data-wow-delay="0.2s">
                             <h4 class="mb-4">Share your order idea, event plan, or daily craving and Tummi Yummi can guide you to the right homemade option.</h4>
-                            <form>
+                            <form class="booking-whatsapp-form">
                                 <div class="row g-3">
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="name" placeholder="Your Name">
+                                            <input type="text" class="form-control" id="name" name="name" placeholder="Your Name" required>
                                             <label for="name">Your Name</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="email" class="form-control" id="email" placeholder="Your Contact">
-                                            <label for="email">Your Contact</label>
+                                            <input type="tel" class="form-control" id="contact" name="contact" placeholder="Your Contact" required>
+                                            <label for="contact">Your Contact</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="place" name="place" placeholder="Your Place" required>
+                                            <label for="place">Your Place</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating date" id="date3" data-target-input="nearest">
+                                            <input type="text" class="form-control datetimepicker-input" id="datetime" name="datetime" placeholder="Preferred Date & Time" data-target="#date3" data-toggle="datetimepicker" required />
+                                            <label for="datetime">Preferred Date & Time</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="itemName" name="itemName" placeholder="Item Name" required>
+                                            <label for="itemName">Item Name</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <select class="form-select" id="itemCount" name="itemCount" required>
+                                              <option value="1 nos">1 nos</option>
+                                              <option value="2 nos">2 nos</option>
+                                              <option value="3 nos">3 nos</option>
+                                              <option value="4 nos">4 nos</option>
+                                              <option value="5 nos">5 nos</option>
+                                              <option value="6-10 nos">6-10 nos</option>
+                                              <option value="10+ nos">10+ nos</option>
+                                            </select>
+                                            <label for="itemCount">Item Count</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <input type="text" class="form-control" id="subject" placeholder="What would you like to order?">
-                                            <label for="subject">Order Type</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="form-floating">
-                                            <textarea class="form-control" placeholder="Leave your order details, quantity, or preferred date" id="message" style="height: 150px"></textarea>
+                                            <textarea class="form-control" placeholder="Leave your order details, quantity, or preferred date" id="message" name="message" style="height: 150px" required></textarea>
                                             <label for="message">Your Message</label>
                                         </div>
                                     </div>
@@ -292,13 +318,12 @@
                     <div class="col-lg-3 col-md-6">
                         <h4 class="section-title ff-secondary text-start text-primary fw-normal mb-4">Connect</h4>
                         <p class="mb-2"><i class="fa fa-map-marker-alt me-3"></i>Tummi Yummi Snacks and Beverages, Pulickal Kavala, Vazhoor, Kottayam 686515</p>
-                        <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>DM us on Instagram for orders and updates</p>
-                        <p class="mb-2"><i class="fa fa-envelope me-3"></i>@tummi_yummi</p>
+                        <p class="mb-2"><i class="fa fa-phone-alt me-3"></i>+91 9496397390</p>
+                        <p class="mb-2"><i class="fab fa-whatsapp me-3"></i>+91 9496397390</p>
                         <div class="d-flex pt-2">
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-twitter"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-facebook-f"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-youtube"></i></a>
-                            <a class="btn btn-outline-light btn-social" href=""><i class="fab fa-linkedin-in"></i></a>
+                            <a class="btn btn-outline-light btn-social" href="https://www.instagram.com/tummi_yummi/"><i class="fab fa-instagram"></i></a>
+                            <a class="btn btn-outline-light btn-social" href="https://www.facebook.com/share/1EEYyZPiGt/"><i class="fab fa-facebook-f"></i></a>
+                            <a class="btn btn-outline-light btn-social" href="https://wa.me/919496397390"><i class="fab fa-whatsapp"></i></a>
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6">
@@ -323,7 +348,7 @@
                     <div class="row">
                         <div class="col-md-6 text-center text-md-start mb-3 mb-md-0">
                             &copy; <a class="border-bottom" href="#">Tummi Yummi</a>, All Right Reserved. 							
-                            Designed by <a class="border-bottom" href="#">twopdle media</a>
+                            Designed by <a class="border-bottom" href="https://flourishing-taffy-15126c.netlify.app/">ASK Media</a>
                         </div>
                         <div class="col-md-6 text-center text-md-end">
                             <div class="footer-menu">

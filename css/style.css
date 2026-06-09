@@ -305,9 +305,9 @@ a {
 }
 
 .hero-header img {
-    width: 108%;
-    max-width: 108%;
-    margin-right: -4%;
+    width: min(100%, 680px);
+    max-width: 100%;
+    margin-right: 0;
     animation: imgRotate 50s linear infinite;
     filter: drop-shadow(0 30px 55px rgba(0, 0, 0, .28));
 }
@@ -1274,7 +1274,7 @@ body.menu-modal-open {
     scrollbar-width: none;
     -ms-overflow-style: none;
     scroll-behavior: auto;
-    touch-action: pan-y;
+    touch-action: pan-x pan-y;
     mask-image: linear-gradient(to right, transparent, #000 8%, #000 92%, transparent);
 }
 
@@ -1297,6 +1297,10 @@ body.menu-modal-open {
     flex: 0 0 300px;
     width: 300px;
     min-width: 300px;
+}
+
+.testimonial-slide[aria-hidden="true"]:not([data-auto-scroll-duplicate="true"]) {
+    display: none;
 }
 
 .testimonial-item {
@@ -1398,6 +1402,56 @@ body.menu-modal-open {
 
 .testimonial-slider::-webkit-scrollbar {
     display: none;
+}
+
+.manual-scroll-controls {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 18px;
+}
+
+.manual-scroll-controls.is-hidden {
+    display: none;
+}
+
+.manual-scroll-btn {
+    width: 44px;
+    height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(234, 88, 12, .22);
+    border-radius: 50%;
+    color: var(--primary);
+    background: #fff;
+    box-shadow: 0 12px 28px rgba(17, 24, 39, .10);
+    transition: .25s ease;
+}
+
+.manual-scroll-btn:hover,
+.manual-scroll-btn:focus {
+    color: #fff;
+    background: var(--primary);
+    border-color: var(--primary);
+    outline: none;
+    box-shadow: 0 16px 32px rgba(234, 88, 12, .24);
+}
+
+.manual-scroll-btn:disabled {
+    cursor: not-allowed;
+    opacity: .42;
+    color: #9ca3af;
+    background: #fff;
+    border-color: rgba(17, 24, 39, .10);
+    box-shadow: none;
+}
+
+.blog-scroll.is-dragging,
+.testimonial-slider.is-dragging {
+    user-select: none;
 }
 
 @media (max-width: 991.98px) {
@@ -1913,6 +1967,14 @@ body.menu-modal-open {
     padding-top: 3rem !important;
 }
 
+.booking-section .booking-form-panel {
+    width: 100%;
+}
+
+.booking-section .bg-dark {
+    border-radius: 0 28px 28px 0;
+}
+
 .blog-showcase::after {
     position: absolute;
     content: "";
@@ -1931,7 +1993,7 @@ body.menu-modal-open {
     scrollbar-width: none;
     -ms-overflow-style: none;
     scroll-behavior: auto;
-    touch-action: pan-y;
+    touch-action: pan-x pan-y;
 }
 
 .blog-scroll-track {
@@ -2151,6 +2213,75 @@ body.menu-modal-open {
 
 .team-item .btn {
     border-radius: 38px 38px 0 0;
+}
+
+.brand-value-card {
+    position: relative;
+    overflow: hidden;
+    padding: 36px 26px 30px;
+    border: 1px solid var(--border-soft);
+    background: linear-gradient(180deg, rgba(255, 255, 255, .98), rgba(255, 246, 231, .92));
+    box-shadow: var(--shadow-soft);
+    border-radius: 28px !important;
+    transition: .4s ease;
+}
+
+.brand-value-card::before {
+    position: absolute;
+    content: "";
+    width: 130px;
+    height: 130px;
+    top: -58px;
+    right: -48px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245, 158, 11, .18), rgba(245, 158, 11, 0) 68%);
+}
+
+.brand-value-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-card);
+}
+
+.brand-value-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 88px;
+    height: 88px;
+    color: #fff;
+    font-size: 2.1rem;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--accent));
+    box-shadow: 0 18px 35px rgba(245, 158, 11, .28);
+}
+
+.brand-value-card h5 {
+    margin-bottom: 14px !important;
+}
+
+.brand-value-card p {
+    margin-bottom: 0;
+    line-height: 1.7;
+}
+
+.brand-value-points {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 22px;
+}
+
+.brand-value-points span {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    color: var(--primary);
+    border-radius: 50%;
+    background: #fff;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, .08);
 }
 
 
