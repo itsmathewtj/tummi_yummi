@@ -10,7 +10,7 @@
     <meta content="Send a pre-order request to Tummi Yummi for homemade snacks, nourishing meals, wholesome cakes, and beverage orders." name="description">
 
     <!-- Favicon -->
-    <link href="img/favicon.ico" rel="icon">
+    <link href="assets/Logo.png" rel="icon">
 
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -102,7 +102,8 @@
                     <div class="col-md-7 bg-dark d-flex align-items-center">
                         <div class="p-5 wow fadeInUp booking-form-panel" data-wow-delay="0.2s">
                             <h5 class="section-title ff-secondary text-start text-primary fw-normal">Pre-Order</h5>
-                            <h1 class="text-white mb-4">Tell Us What You Are Craving</h1>
+                            <h1 class="text-white mb-4">Book Your Order in Advance</h1>
+                            <p class="text-white mb-4">Planning a snack box, a beverage order, or a cake for a special day? Share your request here and reserve your Tummi Yummi order early.</p>
                             <form class="booking-whatsapp-form">
                                 <div class="row g-3">
                                     <div class="col-md-6">
@@ -113,24 +114,20 @@
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating">
-                                            <input type="tel" class="form-control" id="email" name="contact" placeholder="Your Contact" required>
-                                            <label for="email">Your Contact</label>
+                                            <input type="tel" class="form-control" id="contact" name="contact" placeholder="Your Contact" required>
+                                            <label for="contact">Your Contact</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <div class="form-floating">
+                                            <input type="text" class="form-control" id="place" name="place" placeholder="Your Place" required>
+                                            <label for="place">Your Place</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
                                         <div class="form-floating date" id="date3" data-target-input="nearest">
                                             <input type="text" class="form-control datetimepicker-input" id="datetime" name="datetime" placeholder="Preferred Date & Time" data-target="#date3" data-toggle="datetimepicker" required />
                                             <label for="datetime">Preferred Date & Time</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-floating">
-                                            <select class="form-select" id="select1" name="bookingType" required>
-                                              <option value="Single order">Single order</option>
-                                              <option value="Family order">Family order</option>
-                                              <option value="Bulk request">Bulk request</option>
-                                              </select>
-                                              <label for="select1">Booking Type</label>
                                         </div>
                                     </div>
                                     <div class="col-md-6">
@@ -142,20 +139,21 @@
                                     <div class="col-md-6">
                                         <div class="form-floating">
                                             <select class="form-select" id="itemCount" name="itemCount" required>
-                                              <option value="1">1 item</option>
-                                              <option value="2">2 items</option>
-                                              <option value="3">3 items</option>
-                                              <option value="4">4 items</option>
-                                              <option value="5">5 items</option>
-                                              <option value="10+">10+ items</option>
+                                              <option value="1 nos">1 nos</option>
+                                              <option value="2 nos">2 nos</option>
+                                              <option value="3 nos">3 nos</option>
+                                              <option value="4 nos">4 nos</option>
+                                              <option value="5 nos">5 nos</option>
+                                              <option value="6-10 nos">6-10 nos</option>
+                                              <option value="10+ nos">10+ nos</option>
                                             </select>
                                             <label for="itemCount">Item Count</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
                                         <div class="form-floating">
-                                            <textarea class="form-control" placeholder="Share your order details, menu preference, or cake request" id="message" name="message" style="height: 100px"></textarea>
-                                            <label for="message">Order Details</label>
+                                            <textarea class="form-control" placeholder="Tell us your menu choice, quantity, cake idea, or special request" id="message" name="message" style="height: 100px" required></textarea>
+                                            <label for="message">Booking Details</label>
                                         </div>
                                     </div>
                                     <div class="col-12">
